@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Teddy Tripwell Cross Country</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=DM+Serif+Display:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --purple:       #7C3AED;
+      --purple-light: #A78BFA;
+      --purple-dim:   #4C1D95;
+      --black:        #080808;
+      --cream:        #EDE8DF;
+      --cream-dark:   #D9D2C5;
+      --white:        #F7F4EF;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Space Mono', monospace;
+      overflow-x: hidden;
+      cursor: crosshair;
+    }
+
+    /* ── HERO ───────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 6rem 2rem 4rem;
+    }
+
+    /* Radar rings */
+    .radar {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .radar svg {
+      width: min(160vw, 160vh);
+      height: min(160vw, 160vh);
+      opacity: 0.18;
+      animation: radar-spin 40s linear infinite;
+    }
+    @keyframes radar-spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Grain overlay */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+      background-size: 256px 256px;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.4;
+    }
+
+    .hero-label {
+      position: relative;
+      z-index: 2;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--purple-light);
+      margin-bottom: 2rem;
+    }
+
+    .hero-title {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      line-height: 0.85;
+    }
+    .hero-title span {
+      display: block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-style: italic;
+      font-size: clamp(6rem, 18vw, 18rem);
+      text-transform: uppercase;
+      color: var(--white);
+      letter-spacing: -0.01em;
+      -webkit-text-stroke: 2px var(--white);
+    }
+    .hero-title span.outline {
+      color: transparent;
+      -webkit-text-stroke: 2px var(--purple-light);
+    }
+    .hero-title span.purple {
+      color: var(--purple);
+      -webkit-text-stroke: 2px var(--purple);
+    }
+
+    .hero-sub {
+      position: relative;
+      z-index: 2;
+      margin-top: 2.5rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--cream-dark);
+      text-align: center;
+    }
+
+    /* ── TICKER ─────────────────────────────────────────── */
+    .ticker-wrap {
+      background: var(--purple);
+      padding: 1rem 0;
+      overflow: hidden;
+      position: relative;
+      z-index: 10;
+      border-top: 2px solid var(--purple-light);
+      border-bottom: 2px solid var(--purple-light);
+    }
+    .ticker-track {
+      display: flex;
+      white-space: nowrap;
+      animation: ticker 28s linear infinite;
+    }
+    .ticker-track span {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--white);
+      padding: 0 2.5rem;
+    }
+    .ticker-track span.dot {
+      color: var(--purple-light);
+      padding: 0;
+    }
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── ABOUT ──────────────────────────────────────────── */
+    .about {
+      background: var(--cream);
+      color: var(--black);
+      padding: 6rem 2rem;
+    }
+    .about-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--purple-dim);
+      margin-bottom: 1.25rem;
+    }
+    .about-heading {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-style: italic;
+      font-size: clamp(4rem, 10vw, 9rem);
+      line-height: 0.9;
+      text-transform: uppercase;
+      color: var(--black);
+      margin-bottom: 2.5rem;
+      letter-spacing: -0.02em;
+    }
+    .about-text {
+      font-family: 'DM Serif Display', serif;
+      font-style: italic;
+      font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+      line-height: 1.55;
+      max-width: 720px;
+      color: #2a2a2a;
+      margin-bottom: 3.5rem;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--cream-dark);
+      border: 1px solid var(--cream-dark);
+      margin-bottom: 4rem;
+    }
+    .stat {
+      background: var(--cream);
+      padding: 2rem 1.5rem;
+      text-align: center;
+    }
+    .stat-value {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: clamp(1rem, 3vw, 1.5rem);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--purple-dim);
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+    .stat-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #888;
+    }
+
+    .team-photo-wrap {
+      width: 100%;
+      height: clamp(300px, 55vw, 640px);
+      overflow: hidden;
+      position: relative;
+    }
+    .team-photo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      transition: transform 0.8s ease;
+    }
+    .team-photo-wrap:hover img {
+      transform: scale(1.03);
+    }
+    .photo-caption {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #999;
+      margin-top: 0.75rem;
+    }
+
+    /* ── DIVIDER TICKER 2 ───────────────────────────────── */
+    .ticker-wrap.dark {
+      background: var(--black);
+      border-color: #222;
+    }
+    .ticker-wrap.dark .ticker-track span {
+      color: var(--purple-light);
+    }
+    .ticker-wrap.dark .ticker-track span.dot {
+      color: #444;
+    }
+
+    /* ── PHOTOS GRID ────────────────────────────────────── */
+    .photos {
+      background: var(--black);
+      padding: 6rem 2rem;
+    }
+    .photos-inner {
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+    .photos-heading {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-style: italic;
+      font-size: clamp(5rem, 14vw, 14rem);
+      text-transform: uppercase;
+      color: var(--purple);
+      line-height: 0.85;
+      letter-spacing: -0.02em;
+      margin-bottom: 3rem;
+      -webkit-text-stroke: 1px var(--purple);
+    }
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    .photo-card {
+      height: clamp(250px, 40vw, 520px);
+      overflow: hidden;
+      position: relative;
+    }
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  filter 0.5s ease;
+      filter: grayscale(20%);
+    }
+    .photo-card:hover img {
+      transform: scale(1.06) rotate(1.2deg);
+      filter: grayscale(0%) saturate(1.2);
+    }
+    .photo-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(76, 29, 149, 0.5) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    /* ── FAQ ────────────────────────────────────────────── */
+    .faq {
+      background: var(--cream);
+      color: var(--black);
+      padding: 6rem 2rem 7rem;
+    }
+    .faq-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .faq-heading {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-style: italic;
+      font-size: clamp(3rem, 8vw, 7rem);
+      text-transform: uppercase;
+      color: var(--black);
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+      margin-bottom: 3.5rem;
+    }
+    .faq-heading em {
+      color: var(--purple);
+      font-style: italic;
+    }
+
+    .faq-item {
+      border-top: 1px solid var(--cream-dark);
+      padding: 2rem 0;
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 1.25rem;
+      align-items: start;
+    }
+    .faq-item:last-child {
+      border-bottom: 1px solid var(--cream-dark);
+    }
+    .faq-marker {
+      margin-top: 0.15rem;
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--purple);
+      border-radius: 50%;
+      flex-shrink: 0;
+      position: relative;
+    }
+    .faq-marker::after {
+      content: '';
+      position: absolute;
+      inset: 3px;
+      background: var(--purple);
+      border-radius: 50%;
+    }
+    .faq-q {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: var(--black);
+      margin-bottom: 0.6rem;
+      line-height: 1.1;
+    }
+    .faq-a {
+      font-family: 'DM Serif Display', serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      line-height: 1.55;
+      color: #444;
+    }
+
+    /* ── FOOTER ─────────────────────────────────────────── */
+    footer {
+      background: var(--black);
+      border-top: 1px solid #1a1a1a;
+      padding: 4rem 2rem 3rem;
+      text-align: center;
+    }
+    .footer-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-style: italic;
+      font-size: clamp(1.5rem, 5vw, 3.5rem);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--white);
+      margin-bottom: 0.75rem;
+    }
+    .footer-sub {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 0.5rem;
+    }
+    .footer-sub a {
+      color: var(--purple-light);
+      text-decoration: none;
+    }
+    .footer-line {
+      width: 40px;
+      height: 1px;
+      background: var(--purple);
+      margin: 2rem auto;
+    }
+    .footer-copy {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #333;
+    }
+
+    /* ── RESPONSIVE ─────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .stats {
+        grid-template-columns: 1fr;
+      }
+      .photo-grid {
+        grid-template-columns: 1fr;
+      }
+      .photo-card {
+        height: 280px;
+      }
+    }
+    @media (max-width: 480px) {
+      .photo-grid {
+        gap: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero">
+    <div class="radar">
+      <svg viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="400" cy="400" r="50"  stroke="#7C3AED" stroke-width="1.5" stroke-dasharray="6 6"/>
+        <circle cx="400" cy="400" r="100" stroke="#7C3AED" stroke-width="1.5" stroke-dasharray="6 6"/>
+        <circle cx="400" cy="400" r="160" stroke="#7C3AED" stroke-width="1.5" stroke-dasharray="8 8"/>
+        <circle cx="400" cy="400" r="220" stroke="#7C3AED" stroke-width="1"   stroke-dasharray="8 8"/>
+        <circle cx="400" cy="400" r="290" stroke="#7C3AED" stroke-width="1"   stroke-dasharray="10 10"/>
+        <circle cx="400" cy="400" r="360" stroke="#7C3AED" stroke-width="1"   stroke-dasharray="10 10"/>
+        <circle cx="400" cy="400" r="430" stroke="#7C3AED" stroke-width="0.8" stroke-dasharray="12 12"/>
+        <circle cx="400" cy="400" r="510" stroke="#7C3AED" stroke-width="0.8" stroke-dasharray="12 12"/>
+        <circle cx="400" cy="400" r="600" stroke="#7C3AED" stroke-width="0.6" stroke-dasharray="14 14"/>
+        <line x1="400" y1="0" x2="400" y2="800" stroke="#7C3AED" stroke-width="0.5" stroke-dasharray="4 8"/>
+        <line x1="0" y1="400" x2="800" y2="400" stroke="#7C3AED" stroke-width="0.5" stroke-dasharray="4 8"/>
+        <line x1="117" y1="117" x2="683" y2="683" stroke="#7C3AED" stroke-width="0.4" stroke-dasharray="4 12"/>
+        <line x1="683" y1="117" x2="117" y2="683" stroke="#7C3AED" stroke-width="0.4" stroke-dasharray="4 12"/>
+        <!-- Corner markers -->
+        <rect x="50"  y="50"  width="12" height="12" fill="#7C3AED" opacity="0.6"/>
+        <rect x="738" y="50"  width="12" height="12" fill="#7C3AED" opacity="0.6"/>
+        <rect x="50"  y="738" width="12" height="12" fill="#7C3AED" opacity="0.6"/>
+        <rect x="738" y="738" width="12" height="12" fill="#7C3AED" opacity="0.6"/>
+        <rect x="394" y="2"   width="12" height="12" fill="#A78BFA" opacity="0.5"/>
+        <rect x="394" y="786" width="12" height="12" fill="#A78BFA" opacity="0.5"/>
+        <rect x="2"   y="394" width="12" height="12" fill="#A78BFA" opacity="0.5"/>
+        <rect x="786" y="394" width="12" height="12" fill="#A78BFA" opacity="0.5"/>
+      </svg>
+    </div>
+
+    <p class="hero-label">Teddy Tripwell High School &nbsp;·&nbsp; San Carlos, CA</p>
+
+    <h1 class="hero-title">
+      <span>Teddy</span>
+      <span class="outline">Tripwell</span>
+      <span class="purple">XC</span>
+    </h1>
+
+    <p class="hero-sub">San Carlos, CA &nbsp;·&nbsp; Est. 2024–25 Season &nbsp;·&nbsp; PAL &nbsp;·&nbsp; CCS</p>
+  </section>
+
+  <!-- ═══ TICKER ═══ -->
+  <div class="ticker-wrap">
+    <div class="ticker-track" id="ticker">
+      <span>Central Coast Section</span><span class="dot">·</span>
+      <span>PAL Ocean</span><span class="dot">·</span>
+      <span>Northern Conference</span><span class="dot">·</span>
+      <span>Teddy Tripwell XC</span><span class="dot">·</span>
+      <span>Run Fast</span><span class="dot">·</span>
+      <span>CCS Championships</span><span class="dot">·</span>
+      <span>PAL League</span><span class="dot">·</span>
+      <span>Track &amp; Field</span><span class="dot">·</span>
+      <span>Central Coast Section</span><span class="dot">·</span>
+      <span>PAL Ocean</span><span class="dot">·</span>
+      <span>Northern Conference</span><span class="dot">·</span>
+      <span>Teddy Tripwell XC</span><span class="dot">·</span>
+      <span>Run Fast</span><span class="dot">·</span>
+      <span>CCS Championships</span><span class="dot">·</span>
+      <span>PAL League</span><span class="dot">·</span>
+      <span>Track &amp; Field</span><span class="dot">·</span>
+    </div>
+  </div>
+
+  <!-- ═══ ABOUT ═══ -->
+  <section class="about">
+    <div class="about-inner">
+      <p class="section-label">// About the Program</p>
+      <h2 class="about-heading">Who<br>We Are</h2>
+      <p class="about-text">
+        Teddy Tripwell High School Cross Country is a competitive program based in San Carlos, CA.
+        Home of the Tripwells. We compete in the Peninsula Athletic League (PAL) Ocean Division
+        and the Central Coast Section (CCS) Northern Conference. Our team trains year-round,
+        logging early morning miles before sunrise, chasing PRs, and building something worth
+        being part of.
+      </p>
+
+      <div class="stats">
+        <div class="stat">
+          <span class="stat-value">PAL Ocean Division</span>
+          <span class="stat-label">League</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">CCS Competitors</span>
+          <span class="stat-label">Postseason</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">San Carlos, CA</span>
+          <span class="stat-label">Home Base</span>
+        </div>
+      </div>
+
+      <div class="team-photo-wrap">
+        <img
+          src="file:///Users/lukepopler/Pictures/Photos%20Library.photoslibrary/resources/derivatives/F/FC458565-428D-4F42-A43D-36A0E4067FFF_1_105_c.jpeg"
+          alt="Sequoia Cross Country Team at CCS Championships"
+        />
+      </div>
+      <p class="photo-caption">CCS Championships &nbsp;·&nbsp; Teddy Tripwell Cross Country</p>
+    </div>
+  </section>
+
+  <!-- ═══ DARK TICKER 2 ═══ -->
+  <div class="ticker-wrap dark">
+    <div class="ticker-track" style="animation-direction: reverse; animation-duration: 22s;">
+      <span>Early mornings</span><span class="dot">·</span>
+      <span>Chase the PR</span><span class="dot">·</span>
+      <span>5K</span><span class="dot">·</span>
+      <span>Mile splits</span><span class="dot">·</span>
+      <span>Show up</span><span class="dot">·</span>
+      <span>Run don't walk</span><span class="dot">·</span>
+      <span>Tripwells XC</span><span class="dot">·</span>
+      <span>Purple &amp; White</span><span class="dot">·</span>
+      <span>Early mornings</span><span class="dot">·</span>
+      <span>Chase the PR</span><span class="dot">·</span>
+      <span>5K</span><span class="dot">·</span>
+      <span>Mile splits</span><span class="dot">·</span>
+      <span>Show up</span><span class="dot">·</span>
+      <span>Run don't walk</span><span class="dot">·</span>
+      <span>Tripwells XC</span><span class="dot">·</span>
+      <span>Purple &amp; White</span><span class="dot">·</span>
+    </div>
+  </div>
+
+  <!-- ═══ PHOTOS ═══ -->
+  <section class="photos">
+    <div class="photos-inner">
+      <h2 class="photos-heading">The<br>Team</h2>
+      <div class="photo-grid">
+        <div class="photo-card">
+          <img
+            src="file:///Users/lukepopler/Pictures/Photos%20Library.photoslibrary/resources/derivatives/2/2088AC42-4887-4721-B36A-E6330C9242D4_1_105_c.jpeg"
+            alt="Sequoia Boys Team"
+          />
+        </div>
+        <div class="photo-card">
+          <img
+            src="file:///Users/lukepopler/Pictures/Photos%20Library.photoslibrary/resources/derivatives/8/869F47E0-ABE5-4579-9DE4-3326BE056BC9_1_105_c.jpeg"
+            alt="Early Morning Run"
+          />
+        </div>
+        <div class="photo-card">
+          <img
+            src="file:///Users/lukepopler/Pictures/Photos%20Library.photoslibrary/resources/derivatives/2/210D2D6D-F855-4E12-80EB-23F6BC5ADBBD_1_105_c.jpeg"
+            alt="Sequoia XC at Stanford Invite"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FAQ ═══ -->
+  <section class="faq">
+    <div class="faq-inner">
+      <h2 class="faq-heading">Frequently<br><em>Asked</em><br>Questions</h2>
+
+      <div class="faq-item">
+        <div class="faq-marker"></div>
+        <div>
+          <p class="faq-q">What sport is this?</p>
+          <p class="faq-a">Cross country and track &amp; field. We run a lot. Like, a lot a lot.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-marker"></div>
+        <div>
+          <p class="faq-q">Where do you compete?</p>
+          <p class="faq-a">We compete in the PAL Ocean division and qualify for the Central Coast Section (CCS) championships.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-marker"></div>
+        <div>
+          <p class="faq-q">When do you practice?</p>
+          <p class="faq-a">Before the sun comes up. While you're sleeping. Every day.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-marker"></div>
+        <div>
+          <p class="faq-q">What school is this?</p>
+          <p class="faq-a">Teddy Tripwell High School, located at 900 Chestnut St, San Carlos, CA 94070. Home of the Tripwells.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-marker"></div>
+        <div>
+          <p class="faq-q">Can I join?</p>
+          <p class="faq-a">Yes. Show up. Run. Don't quit.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-marker"></div>
+        <div>
+          <p class="faq-q">Do you win?</p>
+          <p class="faq-a">We're working on it.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer>
+    <p class="footer-title">Teddy Tripwell Cross Country</p>
+    <p class="footer-sub">900 Chestnut St, San Carlos, CA 94070 &nbsp;·&nbsp; PAL &nbsp;·&nbsp; CCS</p>
+    <p class="footer-sub"><a href="tel:6505159633">(650) 515-9633</a></p>
+    <div class="footer-line"></div>
+    <p class="footer-copy">2025 Teddy Tripwell High School &nbsp;·&nbsp; TTHS &nbsp;·&nbsp; All rights reserved</p>
+  </footer>
+
+</body>
+</html>
