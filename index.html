@@ -458,6 +458,69 @@
         gap: 0.5rem;
       }
     }
+
+    /* ── LIGHTBOX ───────────────────────────────────────── */
+    .photo-card { cursor: zoom-in; }
+    .team-photo-wrap { cursor: zoom-in; }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .lightbox.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .lightbox-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(8, 8, 8, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .lightbox-img {
+      position: relative;
+      z-index: 1;
+      max-width: 92vw;
+      max-height: 88vh;
+      object-fit: contain;
+      border-radius: 2px;
+      box-shadow: 0 0 80px rgba(124, 58, 237, 0.3);
+      transform: scale(0.92);
+      transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .lightbox.open .lightbox-img {
+      transform: scale(1);
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.5rem;
+      z-index: 2;
+      background: none;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: var(--white);
+      font-size: 1.1rem;
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .lightbox-close:hover {
+      background: var(--purple);
+      border-color: var(--purple);
+    }
   </style>
 </head>
 <body>
@@ -674,6 +737,13 @@
     </div>
   </section>
 
+  <!-- ═══ LIGHTBOX ═══ -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+    <div class="lightbox-backdrop" id="lightbox-backdrop"></div>
+    <button class="lightbox-close" id="lightbox-close" aria-label="Close">&#x2715;</button>
+    <img class="lightbox-img" id="lightbox-img" src="" alt="" />
+  </div>
+
   <!-- ═══ FOOTER ═══ -->
   <footer>
     <p class="footer-title">Teddy Tripwell Cross Country</p>
@@ -682,5 +752,31 @@
     <p class="footer-copy">2025 Teddy Tripwell High School &nbsp;·&nbsp; TTHS &nbsp;·&nbsp; All rights reserved</p>
   </footer>
 
+  <script>
+    const lightbox = document.getElementById('lightbox');
+    const lbImg    = document.getElementById('lightbox-img');
+    const lbClose  = document.getElementById('lightbox-close');
+    const lbBack   = document.getElementById('lightbox-backdrop');
+
+    function openLightbox(src, alt) {
+      lbImg.src = src;
+      lbImg.alt = alt;
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // Grid photos
+    document.querySelectorAll('.photo-card img, .team-photo-wrap img').forEach(img => {
+      img.addEventListener('click', () => openLightbox(img.src, img.alt));
+    });
+
+    lbClose.addEventListener('click', closeLightbox);
+    lbBack.addEventListener('click', closeLightbox);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+  </script>
 </body>
 </html>
